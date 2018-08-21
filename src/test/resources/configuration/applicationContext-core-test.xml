@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- Import the development configuration -->
+    <import resource="classpath:/configuration/applicationContext-core.xml"/>
+    <!-- Override any configuration that needs to be changed for test environment -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="locations" value="classpath:/properties/test.properties"/>
+    </bean>
+    <bean id="entities" class="com.amudhan.caveatemptor.test.common.Entities"/>
+    <bean id="validator" class="com.amudhan.caveatemptor.test.common.Validator"/>
+</beans>
