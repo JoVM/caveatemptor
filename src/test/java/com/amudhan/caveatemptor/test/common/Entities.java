@@ -42,12 +42,12 @@ public class Entities {
         CreditCard creditCard = getCreditCard();
         BankAccount bankAccount = getBankAccount();
         Category category = categoryService.getCategory(10000001);
-        Set<Item> sellingItems = new HashSet<Item>();
-        Set<Image> images = new HashSet<Image>();
-        Set<Address> addresses = new HashSet<Address>();
-        Set<CreditCard> creditCards = new HashSet<CreditCard>();
-        Set<BankAccount> bankAccounts = new HashSet<BankAccount>();
-        Set<Bid> bids = new HashSet<Bid>();
+        Set<Item> sellingItems = new HashSet<>();
+        Set<Image> images = new HashSet<>();
+        Set<Address> addresses = new HashSet<>();
+        Set<CreditCard> creditCards = new HashSet<>();
+        Set<BankAccount> bankAccounts = new HashSet<>();
+        Set<Bid> bids = new HashSet<>();
         billingAddress.setAddressType(AddressType.BILLING);
         billingAddress.setUser(seller);
         shippingAddress.setAddressType(AddressType.SHIPPING);

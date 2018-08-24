@@ -2,7 +2,10 @@ package com.amudhan.caveatemptor.test.dao;
 
 import com.amudhan.caveatemptor.dao.ItemDao;
 import com.amudhan.caveatemptor.dao.UserDao;
-import com.amudhan.caveatemptor.entity.*;
+import com.amudhan.caveatemptor.entity.Bid;
+import com.amudhan.caveatemptor.entity.Image;
+import com.amudhan.caveatemptor.entity.Item;
+import com.amudhan.caveatemptor.entity.User;
 import com.amudhan.caveatemptor.test.DaoTest;
 import com.amudhan.caveatemptor.test.common.Entities;
 import com.amudhan.caveatemptor.test.common.Validator;
@@ -39,27 +42,26 @@ public class ItemDaoTest extends DaoTest {
         Image image = entities.getImage();
         image.setItem(item);
         item.setSeller(seller);
-        Set<Image> images = new HashSet<Image>();
+        Set<Image> images = new HashSet<>();
         images.add(image);
         item.setImages(images);
-        Set<Bid> bids = new HashSet<Bid>();
+        Set<Bid> bids = new HashSet<>();
         item.setBids(bids);
-        item.setCategory(new Category());
         seller.getSellingItems().add(item);
-        //seller.setSellingItems(seller.getSellingItems().stream().map(this::setCategoryOnItem).collect(Collectors.toSet()));
         userDao.persist(seller);
         entityManager.flush();
-        Item persistedItem = itemDao.getItem(item.getId());
-        validator.checkPersistedItem(persistedItem);
+        //Item persistedItem = itemDao.getItem(item.getId());
+        //validator.checkPersistedItem(persistedItem);
+        seller.getSellingItems().stream().forEach(this::checkPersistedItems);
     }
 
-    private Item setCategoryOnItem(Item item) {
-        Category category = new Category();
-        category.setName("Cat1");
-        //category.setItems();
-        category.setParent(null);
-        item.setCategory(category);
-        return item;
+    private void checkPersistedItems(Item persistedItem) {
+        validator.checkPersistedItem(itemDao.getItem(persistedItem.getId()));
+    }
+
+    @Test
+    public void updateItem() {
+
     }
 
     /*TC6: Create multiple items*/

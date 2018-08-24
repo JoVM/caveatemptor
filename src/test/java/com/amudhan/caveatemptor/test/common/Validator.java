@@ -74,6 +74,10 @@ public class Validator {
         for (Image image : persistedItem.getImages()) {
             logger.info("Image details: Image ID: " + image.getId() + " Image name " + image.getName());
         }
+        if (persistedItem.getCategory() != null) {
+            Assert.assertNotNull(persistedItem.getCategory());
+            logger.info("Category details: Category ID: " + persistedItem.getCategory().getId() + " Category name " + persistedItem.getCategory().getName());
+        }
         return true;
     }
 
@@ -197,6 +201,15 @@ public class Validator {
     public boolean checkRemovedBid(Bid removedBid) {
         Bid bid = bidService.getBid(removedBid.getId());
         Assert.assertNull(bid);
+        return true;
+    }
+
+    public boolean checkUpdatedItem(Item updatedItem) {
+        Item item = itemService.getItem(updatedItem.getId());
+
+        Assert.assertEquals(item.getName(), updatedItem.getName());
+        Assert.assertEquals(item.getCategory(), updatedItem.getCategory());
+        Assert.assertEquals(item.getDescription(), updatedItem.getDescription());
         return true;
     }
 }
