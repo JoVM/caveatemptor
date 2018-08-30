@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @NamedQueries({
@@ -47,6 +48,41 @@ public class Item implements Serializable {
     private Category category;
     @Column(name = "description")
     private String description;
+
+    public void merge(Item itemToMerge) {
+        name = itemToMerge.getName();
+        initialPrice = itemToMerge.getInitialPrice();
+        auctionEnd = itemToMerge.getAuctionEnd();
+        //auctionStart = itemToMerge.getAuctionStart();
+        //isAuctionEnded = itemToMerge.isAuctionEnded;
+        //seller = itemToMerge.getSeller();
+        if (itemToMerge.getBids() != null) {
+            addAllBids(itemToMerge.getBids());
+        }
+        if (itemToMerge.getImages() != null) {
+            addAllImages(itemToMerge.getImages());
+        }
+        category = itemToMerge.getCategory();
+        description = itemToMerge.getDescription();
+    }
+
+    public void addAllImages(Set<Image> images) {
+        this.images.addAll(images);
+    }
+
+    public void addImage(Image image) {
+        if (images == null) {
+            images = new HashSet<>();
+        }
+        this.images.add(image);
+    }
+
+    private void addAllBids(Set<Bid> bids) {
+        if (this.bids == null) {
+            this.bids = new HashSet<>();
+        }
+        this.bids.addAll(bids);
+    }
 
     public String getName() {
         return name;

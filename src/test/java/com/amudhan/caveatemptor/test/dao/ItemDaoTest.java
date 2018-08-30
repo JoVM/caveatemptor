@@ -2,10 +2,7 @@ package com.amudhan.caveatemptor.test.dao;
 
 import com.amudhan.caveatemptor.dao.ItemDao;
 import com.amudhan.caveatemptor.dao.UserDao;
-import com.amudhan.caveatemptor.entity.Bid;
-import com.amudhan.caveatemptor.entity.Image;
-import com.amudhan.caveatemptor.entity.Item;
-import com.amudhan.caveatemptor.entity.User;
+import com.amudhan.caveatemptor.entity.*;
 import com.amudhan.caveatemptor.test.DaoTest;
 import com.amudhan.caveatemptor.test.common.Entities;
 import com.amudhan.caveatemptor.test.common.Validator;
@@ -14,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -61,7 +59,41 @@ public class ItemDaoTest extends DaoTest {
 
     @Test
     public void updateItem() {
+        /*A User is necessary for the creation of an item*/
+        logger.info("createItem starting--------------------------------------------");
+        User seller = entities.getSeller();
+        Item item = entities.getItem();
+        Bid bid = entities.getBid();
+        bid.setItem(item);
+        bid.setBidder(entities.getBuyer());
+        Image image = entities.getImage();
+        image.setItem(item);
+        item.setSeller(seller);
+        Set<Image> images = new HashSet<>();
+        images.add(image);
+        item.setImages(images);
+        Set<Bid> bids = new HashSet<>();
+        item.setBids(bids);
+        seller.getSellingItems().add(item);
+        userDao.persist(seller);
+        entityManager.flush();
+        seller.getSellingItems().stream().forEach(this::checkPersistedItems);
 
+        logger.info("updateItem starting--------------------------------------------");
+        seller.getSellingItems().stream().forEach(i -> {
+            Item newItem = entities.getItem();
+            Category category = entities.getCategory();
+            category.setItems(Collections.singleton(i));
+            newItem.setCategory(category);
+            Image newImage = entities.getImage();
+            newImage.setItem(i);
+            newItem.addImage(newImage);
+            i.merge(newItem);
+        });
+        userDao.merge(seller);
+        entityManager.flush();
+        seller = userDao.getUser(seller.getId());
+        seller.getSellingItems().stream().forEach(this::checkPersistedItems);
     }
 
     /*TC6: Create multiple items*/

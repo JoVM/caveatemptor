@@ -54,6 +54,73 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BankAccount> bankAccounts;
 
+    public void merge(User userToMerge) {
+        this.age = userToMerge.getAge();
+        this.name = userToMerge.getName();
+        this.userType = userToMerge.getUserType();
+        mergeItems(userToMerge.getSellingItems());
+        if (userToMerge.getBids() != null) {
+            mergeBids(userToMerge.getBids());
+        }
+        mergeAddresses(userToMerge.getAddresses());
+        mergeBankAccounts(userToMerge.getBankAccounts());
+        mergeCreditCards(userToMerge.getCreditCards());
+        bankAccounts.stream().forEach(bc -> bc.setOwner(this));
+        creditCards.stream().forEach(cc -> cc.setOwner(this));
+    }
+
+    private void mergeCreditCards(Set<CreditCard> creditCards) {
+        addAllCreditcards(creditCards);
+    }
+
+    public void addAllCreditcards(Set<CreditCard> creditCards) {
+        this.creditCards.addAll(creditCards);
+    }
+
+    private void mergeBankAccounts(Set<BankAccount> bankAccounts) {
+        addAllBankAccounts(bankAccounts);
+    }
+
+    public void addAllBankAccounts(Set<BankAccount> bankAccounts) {
+        this.bankAccounts.addAll(bankAccounts);
+    }
+
+    private void mergeAddresses(Set<Address> addressesToMerge) {
+        addAllAddresses(addressesToMerge);
+    }
+
+    public void addAddress(Address address) {
+        this.addresses.add(address);
+    }
+
+    public void addAllAddresses(Set<Address> addresses) {
+        this.addresses.addAll(addresses);
+    }
+
+    private void mergeItems(Set<Item> itemsToMerge) {
+        addAllSellingItems(itemsToMerge);
+    }
+
+    private void mergeBids(Set<Bid> bidsToMerge) {
+        addAllBids(bidsToMerge);
+    }
+
+    public void addSellingItem(Item item) {
+        sellingItems.add(item);
+    }
+
+    public void addAllSellingItems(Set<Item> items) {
+        sellingItems.addAll(items);
+    }
+
+    public void addAllBids(Set<Bid> bids) {
+        this.bids.addAll(bids);
+    }
+
+    public void addBid(Bid bid) {
+        this.bids.add(bid);
+    }
+
     public enum UserType {SELLER, BUYER, ADMIN}
 
     public Name getName() {

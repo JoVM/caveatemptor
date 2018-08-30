@@ -73,6 +73,56 @@ public class Entities {
         item.setBids(bids);
         sellingItems.add(item);
         seller.setSellingItems(sellingItems);
+        seller.setAge(20);
+        return seller;
+    }
+
+    public User getSeller2() {
+        User seller = new User();
+        Name name = new Name();
+        name.setFirstName(randomAlphaGenerator.randomString());
+        name.setLastName(randomAlphaGenerator.randomString());
+        seller.setName(name);
+        Item item = getItem();
+        Image image = getImage();
+        Bid bid = getBid();
+        Address billingAddress = getAddress();
+        Address shippingAddress = getAddress();
+        CreditCard creditCard = getCreditCard();
+        BankAccount bankAccount = getBankAccount();
+        Category category = categoryService.getCategory(10000005);
+        Set<Item> sellingItems = new HashSet<>();
+        Set<Image> images = new HashSet<>();
+        Set<Address> addresses = new HashSet<>();
+        Set<CreditCard> creditCards = new HashSet<>();
+        Set<BankAccount> bankAccounts = new HashSet<>();
+        Set<Bid> bids = new HashSet<>();
+        billingAddress.setAddressType(AddressType.SHIPPING);
+        billingAddress.setUser(seller);
+        shippingAddress.setAddressType(AddressType.HOME);
+        shippingAddress.setUser(seller);
+        addresses.add(billingAddress);
+        addresses.add(shippingAddress);
+        creditCard.setOwner(seller);
+        bankAccount.setOwner(seller);
+        creditCards.add(creditCard);
+        bankAccounts.add(bankAccount);
+        seller.setAddresses(addresses);
+        seller.setCreditCards(creditCards);
+        seller.setBankAccounts(bankAccounts);
+        image.setItem(item);
+        images.add(image);
+        bid.setBidder(userService.getUser(10000006));
+        bid.setItem(item);
+        bids.add(bid);
+        seller.setUserType(UserType.SELLER);
+        item.setSeller(seller);
+        item.setImages(images);
+        item.setCategory(category);
+        item.setBids(bids);
+        sellingItems.add(item);
+        seller.setSellingItems(sellingItems);
+        seller.setAge(30);
         return seller;
     }
 
@@ -161,8 +211,9 @@ public class Entities {
     }
 
     public Category getCategory() {
-        Category category = new Category();
-        category.setName(randomAlphaGenerator.randomString());
+        //Category category = new Category();
+        Category category = categoryService.getCategory(10000005);
+        //category.setName(randomAlphaGenerator.randomString());
         return category;
     }
 }

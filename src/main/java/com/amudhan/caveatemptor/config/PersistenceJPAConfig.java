@@ -21,7 +21,8 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@PropertySource({"classpath:/properties/test.properties"})
+//@PropertySource({"classpath:/properties/test.properties"})
+@PropertySource({"classpath:/properties/dev.properties"})
 @EnableJpaRepositories(basePackages = "com.amudhan.caveatemptor.repository")
 @Profile("specification")
 public class PersistenceJPAConfig {
