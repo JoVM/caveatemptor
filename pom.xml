@@ -25,6 +25,7 @@
         <commons-logging.version>1.2</commons-logging.version>
         <mysql-version>5.1.31</mysql-version>
         <!--<hibernate-entity-manager-version>5.2.10.Final</hibernate-entity-manager-version>-->
+        <org.mapstruct.version>1.2.0.Final</org.mapstruct.version>
         <hibernate-validator-version>5.2.4.Final</hibernate-validator-version>
         <hikaricp-version>2.4.5</hikaricp-version>
         <liquibase-version>3.5.1</liquibase-version>
@@ -102,12 +103,6 @@
             <version>${liquibase-version}</version>
         </dependency>
         <!-- Hibernate implementation of JPA -->
-        <!--<dependency>-->
-        <!--<groupId>org.hibernate</groupId>-->
-        <!--<artifactId>hibernate-entitymanager</artifactId>-->
-        <!--<version>${hibernate-entity-manager-version}</version>-->
-        <!--<scope>runtime</scope>-->
-        <!--</dependency>-->
         <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -131,21 +126,30 @@
         <!-- logging -->
         <!-- SLF4J API -->
         <!--<dependency>-->
-            <!--<groupId>org.slf4j</groupId>-->
-            <!--<artifactId>slf4j-api</artifactId>-->
-            <!--<version>${slf4j.version}</version>-->
+        <!--<groupId>org.slf4j</groupId>-->
+        <!--<artifactId>slf4j-api</artifactId>-->
+        <!--<version>${slf4j.version}</version>-->
         <!--</dependency>-->
         <!-- LOG4J implementation of SLF4J API -->
         <!--<dependency>-->
-            <!--<groupId>org.apache.logging.log4j</groupId>-->
-            <!--<artifactId>log4j-slf4j-impl</artifactId>-->
-            <!--<version>${log4j-versionl}</version>-->
+        <!--<groupId>org.apache.logging.log4j</groupId>-->
+        <!--<artifactId>log4j-slf4j-impl</artifactId>-->
+        <!--<version>${log4j-versionl}</version>-->
         <!--</dependency>-->
         <!--<dependency>-->
-            <!--<groupId>org.apache.logging.log4j</groupId>-->
-            <!--<artifactId>log4j-core</artifactId>-->
-            <!--<version>${log4j-versionl}</version>-->
+        <!--<groupId>org.apache.logging.log4j</groupId>-->
+        <!--<artifactId>log4j-core</artifactId>-->
+        <!--<version>${log4j-versionl}</version>-->
         <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
         <!-- testng -->
         <dependency>
             <groupId>org.testng</groupId>
@@ -220,6 +224,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
 
     </dependencies>
 
@@ -231,6 +240,13 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <!-- To run this, -Denv=${profile} liquibase:update -->

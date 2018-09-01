@@ -1,10 +1,7 @@
 package com.amudhan.caveatemptor.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -25,6 +22,7 @@ import java.util.Properties;
 @PropertySource({"classpath:/properties/dev.properties"})
 @EnableJpaRepositories(basePackages = "com.amudhan.caveatemptor.repository")
 @Profile("specification")
+@ImportResource("classpath:/configuration/applicationContext-core-test.xml")
 public class PersistenceJPAConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {

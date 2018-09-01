@@ -3,7 +3,7 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     <!-- Import the development configuration -->
-    <import resource="classpath:/configuration/applicationContext-core.xml"/>
+    <!--<import resource="classpath:/configuration/applicationContext-core.xml"/>-->
     <!-- Override any configuration that needs to be changed for test environment -->
     <bean id="propertyConfigurer"
           class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
